@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        *{
+            font-family: 'Padauk', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row my-5">
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <h4 class="card-header fw-bold">
+                    အကြွေး Form
+                </h4>
+                <div class="card-body">
+                    <form action="" id="loanForm">
+                        <div class="mb-3">
+                            <label class="form-label">အကြွေးရှင် အမည်</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">ငွေပမာဏ</label>
+                            <input type="number" class="form-control" name="amount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">အတိုး ရာခိုင်နူန်း</label>
+                            <select name="percentage" id="percentage" class="form-select" required>
+                                <option value="">အတိုးနူန်း ရွေးချယ်ပါ</option>
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" required>
+                                <label class="form-check-label" for="flexSwitchCheckDefault">သဘောတူပါသည်</label>
+                            </div>
+                            <button class="btn btn-primary">စာရင်းသွင်း</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card">
+                <h4 class="card-header">
+                    အကြွေးရှင် စာရင်း
+                </h4>
+                <div class="card-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>နာမည်</th>
+                            <th>ငွေပမာဏ</th>
+                            <th>အတိုင်းနူန်း</th>
+                            <th>အတိုး</th>
+                        </tr>
+                        </thead>
+                        <tbody id="output">
+
+
+
+                        <tr>
+                            <td>1</td>
+                            <td>hein htet zan</td>
+                            <td class="loan-amount">123</td>
+                            <td>5%</td>
+                            <td class="interest">6.15</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>kyaw gyi</td>
+                            <td class="loan-amount">234</td>
+                            <td>10%</td>
+                            <td class="interest">23.4</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let c = 1;
+    let percentage = document.querySelector("[name='percentage']");
+    let name = document.querySelector("[name='name']");
+    let amount = document.querySelector("[name='amount']");
+    let loanForm = document.getElementById("loanForm");
+    let output = document.getElementById("output");
+    let loanAmount = document.querySelectorAll(".loan-amount");
+    let interest = document.querySelectorAll(".interest");
+
+
+    for(let i=5;i<=15;i+=5){
+        percentage.innerHTML += `<option value="${i}">${i}%</option>`;
+    }
+
+    function findPercentage(amount,percentage){
+        let result = (amount*percentage)/100;
+        return result;
+    }
+
+    function getLoanAmountTotal(){
+        let loanAmountTotal = 0;
+        loanAmount.forEach(function (el){
+            loanAmountTotal += Number(el.innerText);
+            console.log(el.innerText);
+        })
+        return loanAmountTotal;
+    }
+
+    function getInterestTotal(){
+        let interestTotal = 0;
+        interest.forEach(function (el){
+            interestTotal += Number(el.innerText);
+            console.log(el.innerText);
+        })
+        return interestTotal;
+    }
+
+
+    document.getElementById("loanForm").addEventListener("submit",function (e){
+        e.preventDefault();
+        let formData = new FormData(this);
+        output.innerHTML += `
+            <tr>
+                <td>${c}</td>
+                <td>${formData.get('name')}</td>
+                <td class="loan-amount">${formData.get('amount')}</td>
+                <td>${formData.get('percentage')}%</td>
+                <td class="interest">${findPercentage(formData.get('amount'),formData.get('percentage'))}</td>
+            </tr>
+        `;
+        this.reset();
+        c++;
+    });
+
+
+
+
+</script>
+</body>
+</html>

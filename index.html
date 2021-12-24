@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row my-5">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Testing
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-primary" id="showName">Add List</button>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <ul id="list"  class="list-group">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    let name = document.getElementById("name");
+    let list = document.getElementById("list");
+    let c = 1;
+
+
+    function del(x){
+        x.parentElement.remove();
+    }
+
+    function edit(x){
+        let text = document.getElementById("listText"+x);
+        console.log(text.innerText);
+        let newText = prompt("New Text",text.innerText);
+        text.innerText = newText;
+    }
+
+    function aa(){
+        console.log(this);
+    }
+
+    function showList(){
+        if(name.value.trim()){
+            list.innerHTML += `<li class="list-group-item" id="list${c}">
+                                <button class="btn btn-danger" onclick="del(this)" data-id="${c}">
+                                    Del
+                                </button>
+                                <button class="btn btn-warning" onclick="edit(${c})">Edit</button>
+                                <span id="listText${c}">${name.value}</span>
+                            </li>`;
+            name.value = "";
+            c++;
+        }
+    }
+
+    name.addEventListener("keyup",function (e){
+        console.log(e);
+        if(e.keyCode === 13){
+            showList();
+        }
+    })
+
+    document.getElementById("showName").addEventListener("click",function (){
+
+        showList();
+    });
+
+
+</script>
+</body>
+</html>
