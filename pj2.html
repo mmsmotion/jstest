@@ -72,25 +72,14 @@
                         <tbody id="output">
 
 
-
-                        <tr>
-                            <td>1</td>
-                            <td>hein htet zan</td>
-                            <td class="loan-amount">123</td>
-                            <td>5%</td>
-                            <td class="interest">6.15</td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>kyaw gyi</td>
-                            <td class="loan-amount">234</td>
-                            <td>10%</td>
-                            <td class="interest">23.4</td>
-                        </tr>
                         </tbody>
                         <tfoot>
-
+                            <tr>
+                                <td colspan="2">Amount စုစုပေါင်း</td>
+                                <td id="loanAmountTotal">0</td>
+                                <td>အတိုး စုစုပေါင်း</td>
+                                <td id="interestTotal">0</td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -108,8 +97,8 @@
     let amount = document.querySelector("[name='amount']");
     let loanForm = document.getElementById("loanForm");
     let output = document.getElementById("output");
-    let loanAmount = document.querySelectorAll(".loan-amount");
-    let interest = document.querySelectorAll(".interest");
+    let loanAmountTotal = document.querySelector("#loanAmountTotal");
+    let interestTotal = document.querySelector("#interestTotal");
 
 
     for(let i=5;i<=15;i+=5){
@@ -139,23 +128,43 @@
         return interestTotal;
     }
 
+    function getTotal($className){
+        let elements = document.querySelectorAll($className);
+        let total = 0;
+        elements.forEach(element=>total+=Number(element.innerText));
+        return total;
+    }
+
 
     document.getElementById("loanForm").addEventListener("submit",function (e){
         e.preventDefault();
         let formData = new FormData(this);
-        output.innerHTML += `
-            <tr>
+        let t = `
+
                 <td>${c}</td>
                 <td>${formData.get('name')}</td>
                 <td class="loan-amount">${formData.get('amount')}</td>
                 <td>${formData.get('percentage')}%</td>
                 <td class="interest">${findPercentage(formData.get('amount'),formData.get('percentage'))}</td>
-            </tr>
+
         `;
+
+        let tr = document.createElement("tr");
+        tr.innerHTML = t;
+
+        output.appendChild(tr);
+
+        loanAmountTotal.innerText = getTotal('.loan-amount');
+        interestTotal.innerText = getTotal('.interest');
+
         this.reset();
         c++;
+
     });
 
+    // let testCol = document.querySelectorAll(".loan-amount");
+    // let testTotal = 0;
+    // testCol.forEach(el=>testTotal += Number(el.innerText));
 
 
 

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        *{
+            font-family: 'Padauk', sans-serif;
+        }
+
+        .show-ani{
+            animation: toDown 0.5s linear;
+        }
+
+        @keyframes toDown {
+            from{
+                transform: translateY(-15px);
+            }
+            to{
+                transform: translateY(0px);
+            }
+        }
+
+        .shake{
+            animation: shakeani 0.3s linear 3;
+        }
+
+        @keyframes shakeani {
+            0%{
+                transform: translateX(-10px);
+            }
+            50%{
+                transform: translateX(10px);
+
+            }
+            100%{
+                transform: translateX(0px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        Fruit List
+                    </div>
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="input">
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    function showAlert(){
+        alert('abc');
+    }
+
+    function del(x){
+        x.parentElement.classList.add('shake');
+        setTimeout(function (){
+            x.parentElement.remove();
+        },900)
+    }
+    function edit(x){
+        let t = prompt('new text',x.parentElement.lastChild.data);
+        x.parentElement.lastChild.data = t;
+    }
+
+    let fruits = ["apple","orange","mango","banana"];
+    let cardBody = document.querySelector('.card-body');
+    let ul = document.createElement("ul");
+    ul.classList.add("list-group");
+
+    function newBtn(text,functionName,color='primary'){
+        let btn = document.createElement("button");
+        let btnText = document.createTextNode(text);
+        btn.append(btnText);
+        btn.classList.add("btn","btn-sm","btn-"+color,"me-2");
+        btn.setAttribute('onclick',functionName);
+        return btn;
+    }
+
+    function newLi(listText){
+        let li = document.createElement("li");
+        let text = document.createTextNode(listText);
+        li.classList.add("list-group-item");
+        li.classList.add("show-ani");
+        li.append(text);
+        li.prepend(newBtn('del','del(this)','danger'));
+        li.prepend(newBtn('edit','edit(this)','warning'));
+        ul.append(li);
+    }
+
+    // fruits.forEach(i=>newLi(i));
+
+    cardBody.append(ul);
+
+
+    document.getElementById("input").addEventListener('keyup',function (e){
+       if(e.keyCode===13 && this.value.trim() ){
+           newLi(this.value);
+           this.value="";
+       }
+    })
+</script>
+</body>
+</html>
