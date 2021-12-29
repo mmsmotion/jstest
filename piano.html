@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Piano Project</title>
+    <link rel="icon" href="sounds/icon.png">
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        .key{
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row my-5 g-1 justify-content-center" id="uiOutput">
+
+    </div>
+</div>
+
+<script>
+
+    let uiOutput = document.getElementById('uiOutput');
+    const sounds = ['C4','D4','E4','F4','G4','A4','B4','C5'];
+    const records = [];
+    
+    function playSound(x){
+        let sound = new Audio(`sounds/${x}.mp3`);
+        sound.play();
+        records.push(x);
+        console.log(records);
+    }
+
+    function createKey(keyName){
+        let div= document.createElement('div');
+        div.classList.add('col-1');
+        div.innerHTML = `<button class="btn btn-primary key w-100" onclick="playSound('${keyName}')">${keyName}</button>`;
+        return div;
+    }
+
+    sounds.forEach(sound => uiOutput.append(createKey(sound)));
+
+
+
+
+
+
+    
+</script>
+
+</body>
+</html>

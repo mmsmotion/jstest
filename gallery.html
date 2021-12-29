@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Piano Project</title>
+    <link rel="icon" href="sounds/icon.png">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <style>
+        .key{
+            height: 200px;
+        }
+
+        #output{
+            columns: 200px 3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="p-4 border border-3 border-primary text-center rounded" id="uploadUi">
+                <i class="fas fa-upload fa-3x text-primary"></i>
+                <br>
+                <p class="mb-0 mt-3">Upload Photo</p>
+            </div>
+            <input type="file" id="photo" class="form-control d-none">
+            <div id="output"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let photo = document.getElementById('photo');
+    let output = document.getElementById('output');
+
+    document.getElementById('uploadUi').addEventListener('click',function (){
+       photo.click()
+    });
+
+    photo.addEventListener('change',function (){
+        let currentFile = this.files[0];
+        let reader = new FileReader();
+        reader.onload = function (e){
+            let img = new Image();
+            img.src = e.target.result;
+            img.classList.add('w-100')
+            output.append(img);
+        }
+        reader.readAsDataURL(currentFile);
+    })
+
+
+</script>
+
+</body>
+</html>
